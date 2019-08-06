@@ -33,24 +33,24 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package concurrent;
 import java.util.function.Supplier;
 import java.util.function.Consumer;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.BiFunction;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.ForkJoinTask;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeoutException;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.CompletionException;
-import java.util.concurrent.CompletionStage;
-import java.util.concurrent.locks.LockSupport;
+import concurrent.Future;
+import concurrent.TimeUnit;
+import concurrent.ForkJoinPool;
+import concurrent.ForkJoinTask;
+import concurrent.Executor;
+import concurrent.ThreadLocalRandom;
+import concurrent.ExecutionException;
+import concurrent.TimeoutException;
+import concurrent.CancellationException;
+import concurrent.CompletionException;
+import concurrent.CompletionStage;
+import concurrent.locks.LockSupport;
 
 /**
  * A {@link Future} that may be explicitly completed (setting its

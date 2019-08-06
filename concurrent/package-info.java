@@ -39,38 +39,38 @@
  * well as some classes that provide useful functionality and are
  * otherwise tedious or difficult to implement.  Here are brief
  * descriptions of the main components.  See also the
- * {@link java.util.concurrent.locks} and
- * {@link java.util.concurrent.atomic} packages.
+ * {@link concurrent.locks} and
+ * {@link concurrent.atomic} packages.
  *
  * <h2>Executors</h2>
  *
  * <b>Interfaces.</b>
  *
- * {@link java.util.concurrent.Executor} is a simple standardized
+ * {@link concurrent.Executor} is a simple standardized
  * interface for defining custom thread-like subsystems, including
  * thread pools, asynchronous I/O, and lightweight task frameworks.
  * Depending on which concrete Executor class is being used, tasks may
  * execute in a newly created thread, an existing task-execution thread,
- * or the thread calling {@link java.util.concurrent.Executor#execute
+ * or the thread calling {@link concurrent.Executor#execute
  * execute}, and may execute sequentially or concurrently.
  *
- * {@link java.util.concurrent.ExecutorService} provides a more
+ * {@link concurrent.ExecutorService} provides a more
  * complete asynchronous task execution framework.  An
  * ExecutorService manages queuing and scheduling of tasks,
  * and allows controlled shutdown.
  *
- * The {@link java.util.concurrent.ScheduledExecutorService}
+ * The {@link concurrent.ScheduledExecutorService}
  * subinterface and associated interfaces add support for
  * delayed and periodic task execution.  ExecutorServices
  * provide methods arranging asynchronous execution of any
- * function expressed as {@link java.util.concurrent.Callable},
+ * function expressed as {@link concurrent.Callable},
  * the result-bearing analog of {@link java.lang.Runnable}.
  *
- * A {@link java.util.concurrent.Future} returns the results of
+ * A {@link concurrent.Future} returns the results of
  * a function, allows determination of whether execution has
  * completed, and provides a means to cancel execution.
  *
- * A {@link java.util.concurrent.RunnableFuture} is a {@code Future}
+ * A {@link concurrent.RunnableFuture} is a {@code Future}
  * that possesses a {@code run} method that upon execution,
  * sets its results.
  *
@@ -78,62 +78,62 @@
  *
  * <b>Implementations.</b>
  *
- * Classes {@link java.util.concurrent.ThreadPoolExecutor} and
- * {@link java.util.concurrent.ScheduledThreadPoolExecutor}
+ * Classes {@link concurrent.ThreadPoolExecutor} and
+ * {@link concurrent.ScheduledThreadPoolExecutor}
  * provide tunable, flexible thread pools.
  *
- * The {@link java.util.concurrent.Executors} class provides
+ * The {@link concurrent.Executors} class provides
  * factory methods for the most common kinds and configurations
  * of Executors, as well as a few utility methods for using
  * them.  Other utilities based on {@code Executors} include the
- * concrete class {@link java.util.concurrent.FutureTask}
+ * concrete class {@link concurrent.FutureTask}
  * providing a common extensible implementation of Futures, and
- * {@link java.util.concurrent.ExecutorCompletionService}, that
+ * {@link concurrent.ExecutorCompletionService}, that
  * assists in coordinating the processing of groups of
  * asynchronous tasks.
  *
- * <p>Class {@link java.util.concurrent.ForkJoinPool} provides an
+ * <p>Class {@link concurrent.ForkJoinPool} provides an
  * Executor primarily designed for processing instances of {@link
- * java.util.concurrent.ForkJoinTask} and its subclasses.  These
+ * concurrent.ForkJoinTask} and its subclasses.  These
  * classes employ a work-stealing scheduler that attains high
  * throughput for tasks conforming to restrictions that often hold in
  * computation-intensive parallel processing.
  *
  * <h2>Queues</h2>
  *
- * The {@link java.util.concurrent.ConcurrentLinkedQueue} class
+ * The {@link concurrent.ConcurrentLinkedQueue} class
  * supplies an efficient scalable thread-safe non-blocking FIFO queue.
- * The {@link java.util.concurrent.ConcurrentLinkedDeque} class is
+ * The {@link concurrent.ConcurrentLinkedDeque} class is
  * similar, but additionally supports the {@link java.util.Deque}
  * interface.
  *
- * <p>Five implementations in {@code java.util.concurrent} support
- * the extended {@link java.util.concurrent.BlockingQueue}
+ * <p>Five implementations in {@code concurrent} support
+ * the extended {@link concurrent.BlockingQueue}
  * interface, that defines blocking versions of put and take:
- * {@link java.util.concurrent.LinkedBlockingQueue},
- * {@link java.util.concurrent.ArrayBlockingQueue},
- * {@link java.util.concurrent.SynchronousQueue},
- * {@link java.util.concurrent.PriorityBlockingQueue}, and
- * {@link java.util.concurrent.DelayQueue}.
+ * {@link concurrent.LinkedBlockingQueue},
+ * {@link concurrent.ArrayBlockingQueue},
+ * {@link concurrent.SynchronousQueue},
+ * {@link concurrent.PriorityBlockingQueue}, and
+ * {@link concurrent.DelayQueue}.
  * The different classes cover the most common usage contexts
  * for producer-consumer, messaging, parallel tasking, and
  * related concurrent designs.
  *
- * <p>Extended interface {@link java.util.concurrent.TransferQueue},
- * and implementation {@link java.util.concurrent.LinkedTransferQueue}
+ * <p>Extended interface {@link concurrent.TransferQueue},
+ * and implementation {@link concurrent.LinkedTransferQueue}
  * introduce a synchronous {@code transfer} method (along with related
  * features) in which a producer may optionally block awaiting its
  * consumer.
  *
- * <p>The {@link java.util.concurrent.BlockingDeque} interface
+ * <p>The {@link concurrent.BlockingDeque} interface
  * extends {@code BlockingQueue} to support both FIFO and LIFO
  * (stack-based) operations.
- * Class {@link java.util.concurrent.LinkedBlockingDeque}
+ * Class {@link concurrent.LinkedBlockingDeque}
  * provides an implementation.
  *
  * <h2>Timing</h2>
  *
- * The {@link java.util.concurrent.TimeUnit} class provides
+ * The {@link concurrent.TimeUnit} class provides
  * multiple granularities (including nanoseconds) for
  * specifying and controlling time-out based operations.  Most
  * classes in the package contain operations based on time-outs
@@ -154,21 +154,21 @@
  * Five classes aid common special-purpose synchronization idioms.
  * <ul>
  *
- * <li>{@link java.util.concurrent.Semaphore} is a classic concurrency tool.
+ * <li>{@link concurrent.Semaphore} is a classic concurrency tool.
  *
- * <li>{@link java.util.concurrent.CountDownLatch} is a very simple yet
+ * <li>{@link concurrent.CountDownLatch} is a very simple yet
  * very common utility for blocking until a given number of signals,
  * events, or conditions hold.
  *
- * <li>A {@link java.util.concurrent.CyclicBarrier} is a resettable
+ * <li>A {@link concurrent.CyclicBarrier} is a resettable
  * multiway synchronization point useful in some styles of parallel
  * programming.
  *
- * <li>A {@link java.util.concurrent.Phaser} provides
+ * <li>A {@link concurrent.Phaser} provides
  * a more flexible form of barrier that may be used to control phased
  * computation among multiple threads.
  *
- * <li>An {@link java.util.concurrent.Exchanger} allows two threads to
+ * <li>An {@link concurrent.Exchanger} allows two threads to
  * exchange objects at a rendezvous point, and is useful in several
  * pipeline designs.
  *
@@ -178,11 +178,11 @@
  *
  * Besides Queues, this package supplies Collection implementations
  * designed for use in multithreaded contexts:
- * {@link java.util.concurrent.ConcurrentHashMap},
- * {@link java.util.concurrent.ConcurrentSkipListMap},
- * {@link java.util.concurrent.ConcurrentSkipListSet},
- * {@link java.util.concurrent.CopyOnWriteArrayList}, and
- * {@link java.util.concurrent.CopyOnWriteArraySet}.
+ * {@link concurrent.ConcurrentHashMap},
+ * {@link concurrent.ConcurrentSkipListMap},
+ * {@link concurrent.ConcurrentSkipListSet},
+ * {@link concurrent.CopyOnWriteArrayList}, and
+ * {@link concurrent.CopyOnWriteArraySet}.
  * When many threads are expected to access a given collection, a
  * {@code ConcurrentHashMap} is normally preferable to a synchronized
  * {@code HashMap}, and a {@code ConcurrentSkipListMap} is normally
@@ -196,7 +196,7 @@
  * "synchronized" classes.  For example {@code java.util.Hashtable} and
  * {@code Collections.synchronizedMap(new HashMap())} are
  * synchronized.  But {@link
- * java.util.concurrent.ConcurrentHashMap} is "concurrent".  A
+ * concurrent.ConcurrentHashMap} is "concurrent".  A
  * concurrent collection is thread-safe, but not governed by a
  * single exclusion lock.  In the particular case of
  * ConcurrentHashMap, it safely permits any number of
@@ -217,7 +217,7 @@
  * <em>weakly consistent</em> rather than fast-fail traversal:
  * <ul>
  * <li>they may proceed concurrently with other operations
- * <li>they will never throw {@link java.util.ConcurrentModificationException
+ * <li>they will never throw {@link concurrentModificationException
  * ConcurrentModificationException}
  * <li>they are guaranteed to traverse elements as they existed upon
  * construction exactly once, and may (but are not guaranteed to)
@@ -262,7 +262,7 @@
  * </ul>
  *
  *
- * The methods of all classes in {@code java.util.concurrent} and its
+ * The methods of all classes in {@code concurrent} and its
  * subpackages extend these guarantees to higher-level
  * synchronization.  In particular:
  *
@@ -304,4 +304,4 @@
  *
  * @since 1.5
  */
-package java.util.concurrent;
+package concurrent;

@@ -33,7 +33,7 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package concurrent;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
@@ -41,15 +41,15 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.AbstractExecutorService;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.RunnableFuture;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicLong;
+import concurrent.AbstractExecutorService;
+import concurrent.Callable;
+import concurrent.ExecutorService;
+import concurrent.Future;
+import concurrent.RejectedExecutionException;
+import concurrent.RunnableFuture;
+import concurrent.ThreadLocalRandom;
+import concurrent.TimeUnit;
+import concurrent.atomic.AtomicLong;
 import java.security.AccessControlContext;
 import java.security.ProtectionDomain;
 import java.security.Permissions;
@@ -137,11 +137,11 @@ import java.security.Permissions;
  * parameters, but these may be controlled by setting three
  * {@linkplain System#getProperty system properties}:
  * <ul>
- * <li>{@code java.util.concurrent.ForkJoinPool.common.parallelism}
+ * <li>{@code concurrent.ForkJoinPool.common.parallelism}
  * - the parallelism level, a non-negative integer
- * <li>{@code java.util.concurrent.ForkJoinPool.common.threadFactory}
+ * <li>{@code concurrent.ForkJoinPool.common.threadFactory}
  * - the class name of a {@link ForkJoinWorkerThreadFactory}
- * <li>{@code java.util.concurrent.ForkJoinPool.common.exceptionHandler}
+ * <li>{@code concurrent.ForkJoinPool.common.exceptionHandler}
  * - the class name of a {@link UncaughtExceptionHandler}
  * </ul>
  * If a {@link SecurityManager} is present and no factory is
@@ -3410,11 +3410,11 @@ public class ForkJoinPool extends AbstractExecutorService {
         UncaughtExceptionHandler handler = null;
         try {  // ignore exceptions in accessing/parsing properties
             String pp = System.getProperty
-                ("java.util.concurrent.ForkJoinPool.common.parallelism");
+                ("concurrent.ForkJoinPool.common.parallelism");
             String fp = System.getProperty
-                ("java.util.concurrent.ForkJoinPool.common.threadFactory");
+                ("concurrent.ForkJoinPool.common.threadFactory");
             String hp = System.getProperty
-                ("java.util.concurrent.ForkJoinPool.common.exceptionHandler");
+                ("concurrent.ForkJoinPool.common.exceptionHandler");
             if (pp != null)
                 parallelism = Integer.parseInt(pp);
             if (fp != null)

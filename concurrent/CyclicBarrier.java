@@ -33,9 +33,9 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
+package concurrent;
+import concurrent.locks.Condition;
+import concurrent.locks.ReentrantLock;
 
 /**
  * A synchronization aid that allows a set of threads to all wait for

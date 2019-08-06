@@ -33,7 +33,7 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package concurrent;
 
 /**
  * A {@code TimeUnit} represents time durations at a given unit of
@@ -50,7 +50,7 @@ package java.util.concurrent;
  * <p>A {@code TimeUnit} is mainly used to inform time-based methods
  * how a given timing parameter should be interpreted. For example,
  * the following code will timeout in 50 milliseconds if the {@link
- * java.util.concurrent.locks.Lock lock} is not available:
+ * concurrent.locks.Lock lock} is not available:
  *
  *  <pre> {@code
  * Lock lock = ...;

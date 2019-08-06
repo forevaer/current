@@ -33,15 +33,15 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package concurrent;
 
 import java.security.AccessControlContext;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
-import java.util.concurrent.locks.AbstractQueuedSynchronizer;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.concurrent.atomic.AtomicInteger;
+import concurrent.locks.AbstractQueuedSynchronizer;
+import concurrent.locks.Condition;
+import concurrent.locks.ReentrantLock;
+import concurrent.atomic.AtomicInteger;
 import java.util.*;
 
 /**

@@ -34,9 +34,9 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
-import java.util.concurrent.locks.LockSupport;
-import java.util.concurrent.locks.ReentrantLock;
+package concurrent;
+import concurrent.locks.LockSupport;
+import concurrent.locks.ReentrantLock;
 import java.util.*;
 import java.util.Spliterator;
 import java.util.Spliterators;

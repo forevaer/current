@@ -33,10 +33,10 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent.atomic;
+package concurrent.atomic;
 import java.util.function.LongBinaryOperator;
 import java.util.function.DoubleBinaryOperator;
-import java.util.concurrent.ThreadLocalRandom;
+import concurrent.ThreadLocalRandom;
 
 /**
  * A package-local class holding common representation and mechanics

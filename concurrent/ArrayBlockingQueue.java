@@ -33,9 +33,9 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
+package concurrent;
+import concurrent.locks.Condition;
+import concurrent.locks.ReentrantLock;
 import java.util.AbstractQueue;
 import java.util.Collection;
 import java.util.Iterator;

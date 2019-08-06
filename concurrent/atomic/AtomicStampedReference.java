@@ -33,7 +33,7 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent.atomic;
+package concurrent.atomic;
 
 /**
  * An {@code AtomicStampedReference} maintains an object reference

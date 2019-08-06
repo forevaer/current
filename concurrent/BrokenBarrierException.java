@@ -33,7 +33,7 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package concurrent;
 
 /**
  * Exception thrown when a thread tries to wait upon a barrier that is

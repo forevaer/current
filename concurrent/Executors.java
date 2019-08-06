@@ -33,9 +33,9 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package concurrent;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
+import concurrent.atomic.AtomicInteger;
 import java.security.AccessControlContext;
 import java.security.AccessController;
 import java.security.PrivilegedAction;

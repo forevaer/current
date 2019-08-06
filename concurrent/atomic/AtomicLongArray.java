@@ -33,14 +33,14 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent.atomic;
+package concurrent.atomic;
 import java.util.function.LongUnaryOperator;
 import java.util.function.LongBinaryOperator;
 import sun.misc.Unsafe;
 
 /**
  * A {@code long} array in which elements may be updated atomically.
- * See the {@link java.util.concurrent.atomic} package specification
+ * See the {@link concurrent.atomic} package specification
  * for description of the properties of atomic variables.
  * @since 1.5
  * @author Doug Lea

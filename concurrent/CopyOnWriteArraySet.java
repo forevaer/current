@@ -33,7 +33,7 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package concurrent;
 import java.util.Collection;
 import java.util.Set;
 import java.util.AbstractSet;

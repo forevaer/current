@@ -33,8 +33,8 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent.locks;
-import java.util.concurrent.TimeUnit;
+package concurrent.locks;
+import concurrent.TimeUnit;
 import java.util.Date;
 
 /**
@@ -111,7 +111,7 @@ import java.util.Date;
  * }
  * </pre>
  *
- * (The {@link java.util.concurrent.ArrayBlockingQueue} class provides
+ * (The {@link concurrent.ArrayBlockingQueue} class provides
  * this functionality, so there is no reason to implement this
  * sample usage class.)
  *

@@ -33,9 +33,9 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package concurrent;
 import java.util.Collection;
-import java.util.concurrent.locks.AbstractQueuedSynchronizer;
+import concurrent.locks.AbstractQueuedSynchronizer;
 
 /**
  * A counting semaphore.  Conceptually, a semaphore maintains a set of
@@ -108,7 +108,7 @@ import java.util.concurrent.locks.AbstractQueuedSynchronizer;
  * exclusion lock.  This is more commonly known as a <em>binary
  * semaphore</em>, because it only has two states: one permit
  * available, or zero permits available.  When used in this way, the
- * binary semaphore has the property (unlike many {@link java.util.concurrent.locks.Lock}
+ * binary semaphore has the property (unlike many {@link concurrent.locks.Lock}
  * implementations), that the &quot;lock&quot; can be released by a
  * thread other than the owner (as semaphores have no notion of
  * ownership).  This can be useful in some specialized contexts, such

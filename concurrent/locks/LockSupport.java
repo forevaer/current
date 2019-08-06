@@ -33,7 +33,7 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent.locks;
+package concurrent.locks;
 import sun.misc.Unsafe;
 
 /**
@@ -41,7 +41,7 @@ import sun.misc.Unsafe;
  * synchronization classes.
  *
  * <p>This class associates, with each thread that uses it, a permit
- * (in the sense of the {@link java.util.concurrent.Semaphore
+ * (in the sense of the {@link concurrent.Semaphore
  * Semaphore} class). A call to {@code park} will return immediately
  * if the permit is available, consuming it in the process; otherwise
  * it <em>may</em> block.  A call to {@code unpark} makes the permit
@@ -384,7 +384,7 @@ public class LockSupport {
             r ^= r >>> 17;
             r ^= r << 5;
         }
-        else if ((r = java.util.concurrent.ThreadLocalRandom.current().nextInt()) == 0)
+        else if ((r = concurrent.ThreadLocalRandom.current().nextInt()) == 0)
             r = 1; // avoid zero
         UNSAFE.putInt(t, SECONDARY, r);
         return r;

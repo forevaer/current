@@ -33,7 +33,7 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package concurrent;
 
 import java.io.ObjectStreamField;
 import java.io.Serializable;
@@ -51,11 +51,11 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.Spliterator;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.concurrent.locks.LockSupport;
-import java.util.concurrent.locks.ReentrantLock;
+import concurrent.ConcurrentMap;
+import concurrent.ForkJoinPool;
+import concurrent.atomic.AtomicReference;
+import concurrent.locks.LockSupport;
+import concurrent.locks.ReentrantLock;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
@@ -96,7 +96,7 @@ import java.util.stream.Stream;
  * Iterators, Spliterators and Enumerations return elements reflecting the
  * state of the hash table at some point at or since the creation of the
  * iterator/enumeration.  They do <em>not</em> throw {@link
- * java.util.ConcurrentModificationException ConcurrentModificationException}.
+ * concurrentModificationException ConcurrentModificationException}.
  * However, iterators are designed to be used by only one thread at a time.
  * Bear in mind that the results of aggregate status methods including
  * {@code size}, {@code isEmpty}, and {@code containsValue} are typically
@@ -135,7 +135,7 @@ import java.util.stream.Stream;
  *
  * <p>A ConcurrentHashMap can be used as scalable frequency map (a
  * form of histogram or multiset) by using {@link
- * java.util.concurrent.atomic.LongAdder} values and initializing via
+ * concurrent.atomic.LongAdder} values and initializing via
  * {@link #computeIfAbsent computeIfAbsent}. For example, to add a count
  * to a {@code ConcurrentHashMap<String,LongAdder> freqs}, you can use
  * {@code freqs.computeIfAbsent(k -> new LongAdder()).increment();}

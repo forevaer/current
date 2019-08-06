@@ -33,11 +33,11 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
-import static java.util.concurrent.TimeUnit.NANOSECONDS;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
+package concurrent;
+import static concurrent.TimeUnit.NANOSECONDS;
+import concurrent.atomic.AtomicLong;
+import concurrent.locks.Condition;
+import concurrent.locks.ReentrantLock;
 import java.util.*;
 
 /**

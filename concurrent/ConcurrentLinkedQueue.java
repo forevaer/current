@@ -33,7 +33,7 @@
  * at http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package concurrent;
 
 import java.util.AbstractQueue;
 import java.util.ArrayList;
@@ -68,7 +68,7 @@ import java.util.function.Consumer;
  * <p>Iterators are <i>weakly consistent</i>, returning elements
  * reflecting the state of the queue at some point at or since the
  * creation of the iterator.  They do <em>not</em> throw {@link
- * java.util.ConcurrentModificationException}, and may proceed concurrently
+ * concurrentModificationException}, and may proceed concurrently
  * with other operations.  Elements contained in the queue since the creation
  * of the iterator will be returned exactly once.
  *

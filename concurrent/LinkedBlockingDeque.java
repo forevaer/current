@@ -33,14 +33,14 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package concurrent;
 
 import java.util.AbstractQueue;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
+import concurrent.locks.Condition;
+import concurrent.locks.ReentrantLock;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Consumer;

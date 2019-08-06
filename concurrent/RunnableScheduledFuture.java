@@ -33,7 +33,7 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package concurrent;
 
 /**
  * A {@link ScheduledFuture} that is {@link Runnable}. Successful

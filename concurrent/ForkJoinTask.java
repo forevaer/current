@@ -33,7 +33,7 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package concurrent;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -41,15 +41,15 @@ import java.util.List;
 import java.util.RandomAccess;
 import java.lang.ref.WeakReference;
 import java.lang.ref.ReferenceQueue;
-import java.util.concurrent.Callable;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.RunnableFuture;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.concurrent.locks.ReentrantLock;
+import concurrent.Callable;
+import concurrent.CancellationException;
+import concurrent.ExecutionException;
+import concurrent.Future;
+import concurrent.RejectedExecutionException;
+import concurrent.RunnableFuture;
+import concurrent.TimeUnit;
+import concurrent.TimeoutException;
+import concurrent.locks.ReentrantLock;
 import java.lang.reflect.Constructor;
 
 /**
@@ -140,11 +140,11 @@ import java.lang.reflect.Constructor;
  * {@link #isCompletedNormally} is true if a task completed without
  * cancellation or encountering an exception; {@link #isCancelled} is
  * true if the task was cancelled (in which case {@link #getException}
- * returns a {@link java.util.concurrent.CancellationException}); and
+ * returns a {@link concurrent.CancellationException}); and
  * {@link #isCompletedAbnormally} is true if a task was either
  * cancelled or encountered an exception, in which case {@link
  * #getException} will return either the encountered exception or
- * {@link java.util.concurrent.CancellationException}.
+ * {@link concurrent.CancellationException}.
  *
  * <p>The ForkJoinTask class is not usually directly subclassed.
  * Instead, you subclass one of the abstract classes that support a

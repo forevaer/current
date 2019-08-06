@@ -33,14 +33,14 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent.atomic;
+package concurrent.atomic;
 import java.util.function.IntUnaryOperator;
 import java.util.function.IntBinaryOperator;
 import sun.misc.Unsafe;
 
 /**
  * An {@code int} array in which elements may be updated atomically.
- * See the {@link java.util.concurrent.atomic} package
+ * See the {@link concurrent.atomic} package
  * specification for description of the properties of atomic
  * variables.
  * @since 1.5

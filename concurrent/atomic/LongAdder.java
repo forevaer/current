@@ -33,7 +33,7 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent.atomic;
+package concurrent.atomic;
 import java.io.Serializable;
 
 /**
@@ -53,7 +53,7 @@ import java.io.Serializable;
  * consumption.
  *
  * <p>LongAdders can be used with a {@link
- * java.util.concurrent.ConcurrentHashMap} to maintain a scalable
+ * concurrent.ConcurrentHashMap} to maintain a scalable
  * frequency map (a form of histogram or multiset). For example, to
  * add a count to a {@code ConcurrentHashMap<String,LongAdder> freqs},
  * initializing if not already present, you can use {@code
@@ -245,7 +245,7 @@ public class LongAdder extends Striped64 implements Serializable {
 
     /**
      * Returns a
-     * <a href="../../../../serialized-form.html#java.util.concurrent.atomic.LongAdder.SerializationProxy">
+     * <a href="../../../../serialized-form.html#concurrent.atomic.LongAdder.SerializationProxy">
      * SerializationProxy</a>
      * representing the state of this instance.
      *

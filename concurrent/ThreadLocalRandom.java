@@ -33,13 +33,13 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package concurrent;
 
 import java.io.ObjectStreamField;
 import java.util.Random;
 import java.util.Spliterator;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
+import concurrent.atomic.AtomicInteger;
+import concurrent.atomic.AtomicLong;
 import java.util.function.DoubleConsumer;
 import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;

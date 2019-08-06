@@ -33,7 +33,7 @@
  * at http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package concurrent;
 
 import java.util.AbstractCollection;
 import java.util.ArrayList;

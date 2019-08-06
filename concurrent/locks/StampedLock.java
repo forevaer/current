@@ -33,13 +33,13 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent.locks;
+package concurrent.locks;
 
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.LockSupport;
+import concurrent.TimeUnit;
+import concurrent.locks.Lock;
+import concurrent.locks.Condition;
+import concurrent.locks.ReadWriteLock;
+import concurrent.locks.LockSupport;
 
 /**
  * A capability-based lock with three modes for controlling read/write

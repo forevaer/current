@@ -33,8 +33,8 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
-import java.util.concurrent.locks.LockSupport;
+package concurrent;
+import concurrent.locks.LockSupport;
 
 /**
  * A cancellable asynchronous computation.  This class provides a base
