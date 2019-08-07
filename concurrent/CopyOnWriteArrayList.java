@@ -33,19 +33,8 @@
  */
 
 package concurrent;
-import java.util.AbstractList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-import concurrentModificationException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.util.RandomAccess;
-import java.util.Spliterator;
-import java.util.Spliterators;
+import java.util.*;
+
 import concurrent.locks.ReentrantLock;
 import java.util.function.Consumer;
 import java.util.function.Predicate;

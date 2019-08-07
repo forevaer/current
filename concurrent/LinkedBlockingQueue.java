@@ -46,88 +46,15 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Consumer;
 
-/**
- * An optionally-bounded {@linkplain BlockingQueue blocking queue} based on
- * linked nodes.
- * This queue orders elements FIFO (first-in-first-out).
- * The <em>head</em> of the queue is that element that has been on the
- * queue the longest time.
- * The <em>tail</em> of the queue is that element that has been on the
- * queue the shortest time. New elements
- * are inserted at the tail of the queue, and the queue retrieval
- * operations obtain elements at the head of the queue.
- * Linked queues typically have higher throughput than array-based queues but
- * less predictable performance in most concurrent applications.
- *
- * <p>The optional capacity bound constructor argument serves as a
- * way to prevent excessive queue expansion. The capacity, if unspecified,
- * is equal to {@link Integer#MAX_VALUE}.  Linked nodes are
- * dynamically created upon each insertion unless this would bring the
- * queue above capacity.
- *
- * <p>This class and its iterator implement all of the
- * <em>optional</em> methods of the {@link Collection} and {@link
- * Iterator} interfaces.
- *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
- *
- * @since 1.5
- * @author Doug Lea
- * @param <E> the type of elements held in this collection
- */
+
 public class LinkedBlockingQueue<E> extends AbstractQueue<E>
         implements BlockingQueue<E>, java.io.Serializable {
     private static final long serialVersionUID = -6903933977591709194L;
 
-    /*
-     * A variant of the "two lock queue" algorithm.  The putLock gates
-     * entry to put (and offer), and has an associated condition for
-     * waiting puts.  Similarly for the takeLock.  The "count" field
-     * that they both rely on is maintained as an atomic to avoid
-     * needing to get both locks in most cases. Also, to minimize need
-     * for puts to get takeLock and vice-versa, cascading notifies are
-     * used. When a put notices that it has enabled at least one take,
-     * it signals taker. That taker in turn signals others if more
-     * items have been entered since the signal. And symmetrically for
-     * takes signalling puts. Operations such as remove(Object) and
-     * iterators acquire both locks.
-     *
-     * Visibility between writers and readers is provided as follows:
-     *
-     * Whenever an element is enqueued, the putLock is acquired and
-     * count updated.  A subsequent reader guarantees visibility to the
-     * enqueued Node by either acquiring the putLock (via fullyLock)
-     * or by acquiring the takeLock, and then reading n = count.get();
-     * this gives visibility to the first n items.
-     *
-     * To implement weakly consistent iterators, it appears we need to
-     * keep all Nodes GC-reachable from a predecessor dequeued Node.
-     * That would cause two problems:
-     * - allow a rogue Iterator to cause unbounded memory retention
-     * - cause cross-generational linking of old Nodes to new Nodes if
-     *   a Node was tenured while live, which generational GCs have a
-     *   hard time dealing with, causing repeated major collections.
-     * However, only non-deleted Nodes need to be reachable from
-     * dequeued Nodes, and reachability does not necessarily have to
-     * be of the kind understood by the GC.  We use the trick of
-     * linking a Node that has just been dequeued to itself.  Such a
-     * self-link implicitly means to advance to head.next.
-     */
-
-    /**
-     * Linked list node class
-     */
     static class Node<E> {
         E item;
 
-        /**
-         * One of:
-         * - the real successor Node
-         * - this Node, meaning the successor is head.next
-         * - null, meaning there is no successor (this is the last node)
-         */
+
         Node<E> next;
 
         Node(E x) { item = x; }

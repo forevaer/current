@@ -44,68 +44,16 @@ import java.security.PrivilegedActionException;
 import java.security.AccessControlException;
 import sun.security.util.SecurityConstants;
 
-/**
- * Factory and utility methods for {@link Executor}, {@link
- * ExecutorService}, {@link ScheduledExecutorService}, {@link
- * ThreadFactory}, and {@link Callable} classes defined in this
- * package. This class supports the following kinds of methods:
- *
- * <ul>
- *   <li> Methods that create and return an {@link ExecutorService}
- *        set up with commonly useful configuration settings.
- *   <li> Methods that create and return a {@link ScheduledExecutorService}
- *        set up with commonly useful configuration settings.
- *   <li> Methods that create and return a "wrapped" ExecutorService, that
- *        disables reconfiguration by making implementation-specific methods
- *        inaccessible.
- *   <li> Methods that create and return a {@link ThreadFactory}
- *        that sets newly created threads to a known state.
- *   <li> Methods that create and return a {@link Callable}
- *        out of other closure-like forms, so they can be used
- *        in execution methods requiring {@code Callable}.
- * </ul>
- *
- * @since 1.5
- * @author Doug Lea
- */
 public class Executors {
 
-    /**
-     * Creates a thread pool that reuses a fixed number of threads
-     * operating off a shared unbounded queue.  At any point, at most
-     * {@code nThreads} threads will be active processing tasks.
-     * If additional tasks are submitted when all threads are active,
-     * they will wait in the queue until a thread is available.
-     * If any thread terminates due to a failure during execution
-     * prior to shutdown, a new one will take its place if needed to
-     * execute subsequent tasks.  The threads in the pool will exist
-     * until it is explicitly {@link ExecutorService#shutdown shutdown}.
-     *
-     * @param nThreads the number of threads in the pool
-     * @return the newly created thread pool
-     * @throws IllegalArgumentException if {@code nThreads <= 0}
-     */
+
     public static ExecutorService newFixedThreadPool(int nThreads) {
         return new ThreadPoolExecutor(nThreads, nThreads,
                                       0L, TimeUnit.MILLISECONDS,
                                       new LinkedBlockingQueue<Runnable>());
     }
 
-    /**
-     * Creates a thread pool that maintains enough threads to support
-     * the given parallelism level, and may use multiple queues to
-     * reduce contention. The parallelism level corresponds to the
-     * maximum number of threads actively engaged in, or available to
-     * engage in, task processing. The actual number of threads may
-     * grow and shrink dynamically. A work-stealing pool makes no
-     * guarantees about the order in which submitted tasks are
-     * executed.
-     *
-     * @param parallelism the targeted parallelism level
-     * @return the newly created thread pool
-     * @throws IllegalArgumentException if {@code parallelism <= 0}
-     * @since 1.8
-     */
+
     public static ExecutorService newWorkStealingPool(int parallelism) {
         return new ForkJoinPool
             (parallelism,
@@ -138,7 +86,7 @@ public class Executors {
      * available.  If any thread terminates due to a failure during
      * execution prior to shutdown, a new one will take its place if
      * needed to execute subsequent tasks.  The threads in the pool will
-     * exist until it is explicitly {@link ExecutorService#shutdown
+     * exist until it is explicitly {@link ExecutorService#shutdownNow
      * shutdown}.
      *
      * @param nThreads the number of threads in the pool

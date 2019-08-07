@@ -40,128 +40,20 @@ import java.util.Collection;
 import java.util.Date;
 import sun.misc.Unsafe;
 
-/**
- * A version of {@link AbstractQueuedSynchronizer} in
- * which synchronization state is maintained as a {@code long}.
- * This class has exactly the same structure, properties, and methods
- * as {@code AbstractQueuedSynchronizer} with the exception
- * that all state-related parameters and results are defined
- * as {@code long} rather than {@code int}. This class
- * may be useful when creating synchronizers such as
- * multilevel locks and barriers that require
- * 64 bits of state.
- *
- * <p>See {@link AbstractQueuedSynchronizer} for usage
- * notes and examples.
- *
- * @since 1.6
- * @author Doug Lea
- */
 public abstract class AbstractQueuedLongSynchronizer
     extends AbstractOwnableSynchronizer
     implements java.io.Serializable {
 
     private static final long serialVersionUID = 7373984972572414692L;
 
-    /*
-      To keep sources in sync, the remainder of this source file is
-      exactly cloned from AbstractQueuedSynchronizer, replacing class
-      name and changing ints related with sync state to longs. Please
-      keep it that way.
-    */
-
-    /**
-     * Creates a new {@code AbstractQueuedLongSynchronizer} instance
-     * with initial synchronization state of zero.
-     */
     protected AbstractQueuedLongSynchronizer() { }
-
-    /**
-     * Wait queue node class.
-     *
-     * <p>The wait queue is a variant of a "CLH" (Craig, Landin, and
-     * Hagersten) lock queue. CLH locks are normally used for
-     * spinlocks.  We instead use them for blocking synchronizers, but
-     * use the same basic tactic of holding some of the control
-     * information about a thread in the predecessor of its node.  A
-     * "status" field in each node keeps track of whether a thread
-     * should block.  A node is signalled when its predecessor
-     * releases.  Each node of the queue otherwise serves as a
-     * specific-notification-style monitor holding a single waiting
-     * thread. The status field does NOT control whether threads are
-     * granted locks etc though.  A thread may try to acquire if it is
-     * first in the queue. But being first does not guarantee success;
-     * it only gives the right to contend.  So the currently released
-     * contender thread may need to rewait.
-     *
-     * <p>To enqueue into a CLH lock, you atomically splice it in as new
-     * tail. To dequeue, you just set the head field.
-     * <pre>
-     *      +------+  prev +-----+       +-----+
-     * head |      | <---- |     | <---- |     |  tail
-     *      +------+       +-----+       +-----+
-     * </pre>
-     *
-     * <p>Insertion into a CLH queue requires only a single atomic
-     * operation on "tail", so there is a simple atomic point of
-     * demarcation from unqueued to queued. Similarly, dequeuing
-     * involves only updating the "head". However, it takes a bit
-     * more work for nodes to determine who their successors are,
-     * in part to deal with possible cancellation due to timeouts
-     * and interrupts.
-     *
-     * <p>The "prev" links (not used in original CLH locks), are mainly
-     * needed to handle cancellation. If a node is cancelled, its
-     * successor is (normally) relinked to a non-cancelled
-     * predecessor. For explanation of similar mechanics in the case
-     * of spin locks, see the papers by Scott and Scherer at
-     * http://www.cs.rochester.edu/u/scott/synchronization/
-     *
-     * <p>We also use "next" links to implement blocking mechanics.
-     * The thread id for each node is kept in its own node, so a
-     * predecessor signals the next node to wake up by traversing
-     * next link to determine which thread it is.  Determination of
-     * successor must avoid races with newly queued nodes to set
-     * the "next" fields of their predecessors.  This is solved
-     * when necessary by checking backwards from the atomically
-     * updated "tail" when a node's successor appears to be null.
-     * (Or, said differently, the next-links are an optimization
-     * so that we don't usually need a backward scan.)
-     *
-     * <p>Cancellation introduces some conservatism to the basic
-     * algorithms.  Since we must poll for cancellation of other
-     * nodes, we can miss noticing whether a cancelled node is
-     * ahead or behind us. This is dealt with by always unparking
-     * successors upon cancellation, allowing them to stabilize on
-     * a new predecessor, unless we can identify an uncancelled
-     * predecessor who will carry this responsibility.
-     *
-     * <p>CLH queues need a dummy header node to get started. But
-     * we don't create them on construction, because it would be wasted
-     * effort if there is never contention. Instead, the node
-     * is constructed and head and tail pointers are set upon first
-     * contention.
-     *
-     * <p>Threads waiting on Conditions use the same nodes, but
-     * use an additional link. Conditions only need to link nodes
-     * in simple (non-concurrent) linked queues because they are
-     * only accessed when exclusively held.  Upon await, a node is
-     * inserted into a condition queue.  Upon signal, the node is
-     * transferred to the main queue.  A special value of status
-     * field is used to mark which queue a node is on.
-     *
-     * <p>Thanks go to Dave Dice, Mark Moir, Victor Luchangco, Bill
-     * Scherer and Michael Scott, along with members of JSR-166
-     * expert group, for helpful ideas, discussions, and critiques
-     * on the design of this class.
-     */
     static final class Node {
-        /** Marker to indicate a node is waiting in shared mode */
+        /** share node */
         static final Node SHARED = new Node();
-        /** Marker to indicate a node is waiting in exclusive mode */
+        /** exclusive node */
         static final Node EXCLUSIVE = null;
 
-        /** waitStatus value to indicate thread has cancelled */
+        /** cancel node */
         static final int CANCELLED =  1;
         /** waitStatus value to indicate successor's thread needs unparking */
         static final int SIGNAL    = -1;
@@ -263,11 +155,7 @@ public abstract class AbstractQueuedLongSynchronizer
         }
 
         /**
-         * Returns previous node, or throws NullPointerException if null.
-         * Use when predecessor cannot be null.  The null check could
-         * be elided, but is present to help the VM.
-         *
-         * @return the predecessor of this node
+         * prev, process over
          */
         final Node predecessor() throws NullPointerException {
             Node p = prev;
@@ -292,81 +180,64 @@ public abstract class AbstractQueuedLongSynchronizer
     }
 
     /**
-     * Head of the wait queue, lazily initialized.  Except for
-     * initialization, it is modified only via method setHead.  Note:
-     * If head exists, its waitStatus is guaranteed not to be
-     * CANCELLED.
+     * head node
      */
     private transient volatile Node head;
 
     /**
-     * Tail of the wait queue, lazily initialized.  Modified only via
-     * method enq to add new wait node.
+     * tail node
      */
     private transient volatile Node tail;
 
     /**
-     * The synchronization state.
+     * state
      */
     private volatile long state;
 
     /**
-     * Returns the current value of synchronization state.
-     * This operation has memory semantics of a {@code volatile} read.
-     * @return current state value
+     * get state
      */
     protected final long getState() {
         return state;
     }
 
     /**
-     * Sets the value of synchronization state.
-     * This operation has memory semantics of a {@code volatile} write.
-     * @param newState the new state value
+     * set state
      */
     protected final void setState(long newState) {
         state = newState;
     }
 
     /**
-     * Atomically sets synchronization state to the given updated
-     * value if the current state value equals the expected value.
-     * This operation has memory semantics of a {@code volatile} read
-     * and write.
-     *
-     * @param expect the expected value
-     * @param update the new value
-     * @return {@code true} if successful. False return indicates that the actual
-     *         value was not equal to the expected value.
+     * cas(this, state_offset, old_state, new_state)
      */
     protected final boolean compareAndSetState(long expect, long update) {
-        // See below for intrinsics setup to support this
         return unsafe.compareAndSwapLong(this, stateOffset, expect, update);
     }
 
-    // Queuing utilities
-
     /**
-     * The number of nanoseconds for which it is faster to spin
-     * rather than to use timed park. A rough estimate suffices
-     * to improve responsiveness with very short timeouts.
+     * 超时释放
      */
     static final long spinForTimeoutThreshold = 1000L;
 
     /**
-     * Inserts node into queue, initializing if necessary. See picture above.
-     * @param node the node to insert
-     * @return node's predecessor
+     *  append last, and return before last
      */
     private Node enq(final Node node) {
         for (;;) {
+            // get tail
             Node t = tail;
-            if (t == null) { // Must initialize
+            if (t == null) {
+                // tail = head == null, set(head)
                 if (compareAndSetHead(new Node()))
                     tail = head;
             } else {
+                // append 2 tail
                 node.prev = t;
+                // and tail = node
                 if (compareAndSetTail(t, node)) {
+                    // last tail.next = node
+                    // get last tail
                     t.next = node;
                     return t;
                 }
@@ -381,26 +252,26 @@ public abstract class AbstractQueuedLongSynchronizer
      * @return the new node
      */
     private Node addWaiter(Node mode) {
+        // create node
         Node node = new Node(Thread.currentThread(), mode);
-        // Try the fast path of enq; backup to full enq on failure
+        // from tail
         Node pred = tail;
         if (pred != null) {
+            // get prev
             node.prev = pred;
+            // cas node 2 tail
             if (compareAndSetTail(pred, node)) {
                 pred.next = node;
                 return node;
             }
         }
+        // append 2 last
         enq(node);
         return node;
     }
 
     /**
-     * Sets head of queue to be node, thus dequeuing. Called only by
-     * acquire methods.  Also nulls out unused fields for sake of GC
-     * and to suppress unnecessary signals and traversals.
-     *
-     * @param node the node
+     * just head
      */
     private void setHead(Node node) {
         head = node;
@@ -409,26 +280,14 @@ public abstract class AbstractQueuedLongSynchronizer
     }
 
     /**
-     * Wakes up node's successor, if one exists.
      *
-     * @param node the node
      */
     private void unparkSuccessor(Node node) {
-        /*
-         * If status is negative (i.e., possibly needing signal) try
-         * to clear in anticipation of signalling.  It is OK if this
-         * fails or if status is changed by waiting thread.
-         */
         int ws = node.waitStatus;
+        // set status 0
         if (ws < 0)
             compareAndSetWaitStatus(node, ws, 0);
 
-        /*
-         * Thread to unpark is held in successor, which is normally
-         * just the next node.  But if cancelled or apparently null,
-         * traverse backwards from tail to find the actual
-         * non-cancelled successor.
-         */
         Node s = node.next;
         if (s == null || s.waitStatus > 0) {
             s = null;
@@ -437,35 +296,27 @@ public abstract class AbstractQueuedLongSynchronizer
                     s = t;
         }
         if (s != null)
+            // unpack node
             LockSupport.unpark(s.thread);
     }
 
     /**
-     * Release action for shared mode -- signals successor and ensures
-     * propagation. (Note: For exclusive mode, release just amounts
-     * to calling unparkSuccessor of head if it needs signal.)
+     * release shared
      */
     private void doReleaseShared() {
-        /*
-         * Ensure that a release propagates, even if there are other
-         * in-progress acquires/releases.  This proceeds in the usual
-         * way of trying to unparkSuccessor of head if it needs
-         * signal. But if it does not, status is set to PROPAGATE to
-         * ensure that upon release, propagation continues.
-         * Additionally, we must loop in case a new node is added
-         * while we are doing this. Also, unlike other uses of
-         * unparkSuccessor, we need to know if CAS to reset status
-         * fails, if so rechecking.
-         */
         for (;;) {
             Node h = head;
             if (h != null && h != tail) {
                 int ws = h.waitStatus;
+                // lock ?
                 if (ws == Node.SIGNAL) {
+                    // release
                     if (!compareAndSetWaitStatus(h, Node.SIGNAL, 0))
                         continue;            // loop to recheck cases
+                    // unlock
                     unparkSuccessor(h);
                 }
+                // unlock and release
                 else if (ws == 0 &&
                          !compareAndSetWaitStatus(h, 0, Node.PROPAGATE))
                     continue;                // loop on failed CAS
@@ -486,22 +337,6 @@ public abstract class AbstractQueuedLongSynchronizer
     private void setHeadAndPropagate(Node node, long propagate) {
         Node h = head; // Record old head for check below
         setHead(node);
-        /*
-         * Try to signal next queued node if:
-         *   Propagation was indicated by caller,
-         *     or was recorded (as h.waitStatus either before
-         *     or after setHead) by a previous operation
-         *     (note: this uses sign-check of waitStatus because
-         *      PROPAGATE status may transition to SIGNAL.)
-         * and
-         *   The next node is waiting in shared mode,
-         *     or we don't know, because it appears null
-         *
-         * The conservatism in both of these checks may cause
-         * unnecessary wake-ups, but only when there are multiple
-         * racing acquires/releases, so most need signals now or soon
-         * anyway.
-         */
         if (propagate > 0 || h == null || h.waitStatus < 0 ||
             (h = head) == null || h.waitStatus < 0) {
             Node s = node.next;
@@ -2061,21 +1896,21 @@ public abstract class AbstractQueuedLongSynchronizer
     }
 
     /**
-     * CAS head field. Used only by enq.
+     * cas(null, head)
      */
     private final boolean compareAndSetHead(Node update) {
         return unsafe.compareAndSwapObject(this, headOffset, null, update);
     }
 
     /**
-     * CAS tail field. Used only by enq.
+     * cas tail
      */
     private final boolean compareAndSetTail(Node expect, Node update) {
         return unsafe.compareAndSwapObject(this, tailOffset, expect, update);
     }
 
     /**
-     * CAS waitStatus field of a node.
+     * cas waitStatus
      */
     private static final boolean compareAndSetWaitStatus(Node node,
                                                          int expect,
@@ -2085,7 +1920,7 @@ public abstract class AbstractQueuedLongSynchronizer
     }
 
     /**
-     * CAS next field of a node.
+     * cas_next(old, new)
      */
     private static final boolean compareAndSetNext(Node node,
                                                    Node expect,

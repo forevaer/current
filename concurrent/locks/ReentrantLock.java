@@ -37,94 +37,24 @@ package concurrent.locks;
 import concurrent.TimeUnit;
 import java.util.Collection;
 
-/**
- * A reentrant mutual exclusion {@link Lock} with the same basic
- * behavior and semantics as the implicit monitor lock accessed using
- * {@code synchronized} methods and statements, but with extended
- * capabilities.
- *
- * <p>A {@code ReentrantLock} is <em>owned</em> by the thread last
- * successfully locking, but not yet unlocking it. A thread invoking
- * {@code lock} will return, successfully acquiring the lock, when
- * the lock is not owned by another thread. The method will return
- * immediately if the current thread already owns the lock. This can
- * be checked using methods {@link #isHeldByCurrentThread}, and {@link
- * #getHoldCount}.
- *
- * <p>The constructor for this class accepts an optional
- * <em>fairness</em> parameter.  When set {@code true}, under
- * contention, locks favor granting access to the longest-waiting
- * thread.  Otherwise this lock does not guarantee any particular
- * access order.  Programs using fair locks accessed by many threads
- * may display lower overall throughput (i.e., are slower; often much
- * slower) than those using the default setting, but have smaller
- * variances in times to obtain locks and guarantee lack of
- * starvation. Note however, that fairness of locks does not guarantee
- * fairness of thread scheduling. Thus, one of many threads using a
- * fair lock may obtain it multiple times in succession while other
- * active threads are not progressing and not currently holding the
- * lock.
- * Also note that the untimed {@link #tryLock()} method does not
- * honor the fairness setting. It will succeed if the lock
- * is available even if other threads are waiting.
- *
- * <p>It is recommended practice to <em>always</em> immediately
- * follow a call to {@code lock} with a {@code try} block, most
- * typically in a before/after construction such as:
- *
- *  <pre> {@code
- * class X {
- *   private final ReentrantLock lock = new ReentrantLock();
- *   // ...
- *
- *   public void m() {
- *     lock.lock();  // block until condition holds
- *     try {
- *       // ... method body
- *     } finally {
- *       lock.unlock()
- *     }
- *   }
- * }}</pre>
- *
- * <p>In addition to implementing the {@link Lock} interface, this
- * class defines a number of {@code public} and {@code protected}
- * methods for inspecting the state of the lock.  Some of these
- * methods are only useful for instrumentation and monitoring.
- *
- * <p>Serialization of this class behaves in the same way as built-in
- * locks: a deserialized lock is in the unlocked state, regardless of
- * its state when serialized.
- *
- * <p>This lock supports a maximum of 2147483647 recursive locks by
- * the same thread. Attempts to exceed this limit result in
- * {@link Error} throws from locking methods.
- *
- * @since 1.5
- * @author Doug Lea
- */
 public class ReentrantLock implements Lock, java.io.Serializable {
     private static final long serialVersionUID = 7373984872572414699L;
     /** Synchronizer providing all implementation mechanics */
     private final Sync sync;
 
     /**
-     * Base of synchronization control for this lock. Subclassed
-     * into fair and nonfair versions below. Uses AQS state to
-     * represent the number of holds on the lock.
+     * sync
      */
     abstract static class Sync extends AbstractQueuedSynchronizer {
         private static final long serialVersionUID = -5179523762034025860L;
 
         /**
-         * Performs {@link Lock#lock}. The main reason for subclassing
-         * is to allow fast path for nonfair version.
+         * lock
          */
         abstract void lock();
 
         /**
-         * Performs non-fair tryLock.  tryAcquire is implemented in
-         * subclasses, but both need nonfair try for trylock method.
+         * acquire
          */
         final boolean nonfairTryAcquire(int acquires) {
             final Thread current = Thread.currentThread();
@@ -144,7 +74,7 @@ public class ReentrantLock implements Lock, java.io.Serializable {
             }
             return false;
         }
-
+        // try release
         protected final boolean tryRelease(int releases) {
             int c = getState() - releases;
             if (Thread.currentThread() != getExclusiveOwnerThread())
@@ -157,13 +87,11 @@ public class ReentrantLock implements Lock, java.io.Serializable {
             setState(c);
             return free;
         }
-
+        // exclusive
         protected final boolean isHeldExclusively() {
-            // While we must in general read state before owner,
-            // we don't need to do so to check if current thread is owner
             return getExclusiveOwnerThread() == Thread.currentThread();
         }
-
+        // new
         final ConditionObject newCondition() {
             return new ConditionObject();
         }
