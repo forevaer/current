@@ -35,22 +35,14 @@
 
 package concurrent.atomic;
 
-/**
- * An {@code AtomicMarkableReference} maintains an object reference
- * along with a mark bit, that can be updated atomically.
- *
- * <p>Implementation note: This implementation maintains markable
- * references by creating internal objects representing "boxed"
- * [reference, boolean] pairs.
- *
- * @since 1.5
- * @author Doug Lea
- * @param <V> The type of object referred to by this reference
- */
 public class AtomicMarkableReference<V> {
-
+    /**
+     * 内部对象
+     */
     private static class Pair<T> {
+        // 引用
         final T reference;
+        // 标记
         final boolean mark;
         private Pair(T reference, boolean mark) {
             this.reference = reference;
@@ -64,41 +56,29 @@ public class AtomicMarkableReference<V> {
     private volatile Pair<V> pair;
 
     /**
-     * Creates a new {@code AtomicMarkableReference} with the given
-     * initial values.
-     *
-     * @param initialRef the initial reference
-     * @param initialMark the initial mark
+     *  constructor
      */
     public AtomicMarkableReference(V initialRef, boolean initialMark) {
         pair = Pair.of(initialRef, initialMark);
     }
 
     /**
-     * Returns the current value of the reference.
-     *
-     * @return the current value of the reference
+     * get ref
      */
     public V getReference() {
         return pair.reference;
     }
 
     /**
-     * Returns the current value of the mark.
-     *
-     * @return the current value of the mark
+     * return mark
      */
     public boolean isMarked() {
         return pair.mark;
     }
 
     /**
-     * Returns the current values of both the reference and the mark.
-     * Typical usage is {@code boolean[1] holder; ref = v.get(holder); }.
-     *
-     * @param markHolder an array of size of at least one. On return,
-     * {@code markholder[0]} will hold the value of the mark.
-     * @return the current value of the reference
+     * markHolder[0] = mark
+     * return ref
      */
     public V get(boolean[] markHolder) {
         Pair<V> pair = this.pair;
@@ -107,20 +87,7 @@ public class AtomicMarkableReference<V> {
     }
 
     /**
-     * Atomically sets the value of both the reference and mark
-     * to the given update values if the
-     * current reference is {@code ==} to the expected reference
-     * and the current mark is equal to the expected mark.
-     *
-     * <p><a href="package-summary.html#weakCompareAndSet">May fail
-     * spuriously and does not provide ordering guarantees</a>, so is
-     * only rarely an appropriate alternative to {@code compareAndSet}.
-     *
-     * @param expectedReference the expected value of the reference
-     * @param newReference the new value for the reference
-     * @param expectedMark the expected value of the mark
-     * @param newMark the new value for the mark
-     * @return {@code true} if successful
+     * Pair_CAS
      */
     public boolean weakCompareAndSet(V       expectedReference,
                                      V       newReference,
@@ -131,16 +98,7 @@ public class AtomicMarkableReference<V> {
     }
 
     /**
-     * Atomically sets the value of both the reference and mark
-     * to the given update values if the
-     * current reference is {@code ==} to the expected reference
-     * and the current mark is equal to the expected mark.
-     *
-     * @param expectedReference the expected value of the reference
-     * @param newReference the new value for the reference
-     * @param expectedMark the expected value of the mark
-     * @param newMark the new value for the mark
-     * @return {@code true} if successful
+     * base_CAS ==> Object_CAS
      */
     public boolean compareAndSet(V       expectedReference,
                                  V       newReference,
@@ -148,18 +106,21 @@ public class AtomicMarkableReference<V> {
                                  boolean newMark) {
         Pair<V> current = pair;
         return
+                // ref req
             expectedReference == current.reference &&
+                    // mark req
             expectedMark == current.mark &&
-            ((newReference == current.reference &&
-              newMark == current.mark) ||
-             casPair(current, Pair.of(newReference, newMark)));
+            (       // ref req
+                    (newReference == current.reference &&
+                    // mark req
+                    newMark == current.mark) ||
+                    //  cas
+                    casPair(current, Pair.of(newReference, newMark))
+            );
     }
 
     /**
-     * Unconditionally sets the value of both the reference and mark.
-     *
-     * @param newReference the new value for the reference
-     * @param newMark the new value for the mark
+     * Pair_set
      */
     public void set(V newReference, boolean newMark) {
         Pair<V> current = pair;
@@ -168,17 +129,7 @@ public class AtomicMarkableReference<V> {
     }
 
     /**
-     * Atomically sets the value of the mark to the given update value
-     * if the current reference is {@code ==} to the expected
-     * reference.  Any given invocation of this operation may fail
-     * (return {@code false}) spuriously, but repeated invocation
-     * when the current value holds the expected value and no other
-     * thread is also attempting to set the value will eventually
-     * succeed.
-     *
-     * @param expectedReference the expected value of the reference
-     * @param newMark the new value for the mark
-     * @return {@code true} if successful
+     * same ref and change the mark
      */
     public boolean attemptMark(V expectedReference, boolean newMark) {
         Pair<V> current = pair;
@@ -188,16 +139,19 @@ public class AtomicMarkableReference<V> {
              casPair(current, Pair.of(expectedReference, newMark)));
     }
 
-    // Unsafe mechanics
-
+    // unsafe
     private static final sun.misc.Unsafe UNSAFE = sun.misc.Unsafe.getUnsafe();
+    // offset
     private static final long pairOffset =
         objectFieldOffset(UNSAFE, "pair", AtomicMarkableReference.class);
-
+    // cas(obj, field1, field2)
     private boolean casPair(Pair<V> cmp, Pair<V> val) {
         return UNSAFE.compareAndSwapObject(this, pairOffset, cmp, val);
     }
 
+    /**
+     * field offset
+     */
     static long objectFieldOffset(sun.misc.Unsafe UNSAFE,
                                   String field, Class<?> klazz) {
         try {
